@@ -16,10 +16,12 @@ pipeline {
 
         stage('Install & Build React App') {
             steps {
-                bat 'npm install'
-                bat 'npm run build'
+                dir('integrated-react') {
+                    bat 'npm install'
+                    bat 'npm run build'
             }
         }
+    }
 
         stage('Test Terraform') {
             steps {
