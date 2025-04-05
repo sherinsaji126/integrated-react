@@ -33,7 +33,7 @@ pipeline {
 
         stage("Terraform Setup") {
             steps {
-                dir("terraform-integrated-react") { // fixed the typo here
+                dir("terraform-integrated-react") {
                     bat 'terraform init'
                     bat 'terraform plan -out=tfplan'
                     bat 'terraform apply -auto-approve tfplan'
@@ -45,8 +45,8 @@ pipeline {
             steps {
                 withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
                     bat 'az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%'
-                    bat 'powershell Compress-Archive -Path ./integrated-react/build/* -DestinationPath ./build.zip -Force'
-                    bat 'az webapp deploy --resource-group %RESOURCE_GROUP% --name %APP_SERVICE_NAME% --src-path ./build.zip --type zip'
+                    bat 'powershell Compress-Archive -Path integrated-react\\build\\* -DestinationPath build.zip -Force'
+                    bat 'az webapp deploy --resource-group %RESOURCE_GROUP% --name %APP_SERVICE_NAME% --src-path build.zip --type zip'
                 }
             }
         }
