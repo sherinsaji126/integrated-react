@@ -4,7 +4,7 @@ pipeline {
     environment {
         AZURE_CREDENTIALS_ID = 'azure-service-principal-4'
         RESOURCE_GROUP = 'rg-jenkins'
-        APP_SERVICE_NAME = 'integrated-react-app' // make sure this is unique
+        APP_SERVICE_NAME = 'integrated-react-web-api' // make sure this is unique
     }
 
     stages {
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Test Terraform') {
             steps {
-                dir('terraform_intregated') {
+                dir('terraform-intregated-react') {
                     bat 'terraform --version'
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
 
         stage("Terraform Setup") {
             steps {
-                dir("terraform_intregated") {
+                dir("terraform-intregated-react") {
                     bat 'terraform init'
                     bat 'terraform plan -out=tfplan'
                     bat 'terraform apply -auto-approve tfplan'
